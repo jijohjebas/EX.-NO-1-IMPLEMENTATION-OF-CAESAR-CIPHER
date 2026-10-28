@@ -19,41 +19,43 @@ STEP-5: Display the cipher text obtained above.
 ```
 #include <stdio.h> 
 #include <string.h> 
-#include <ctype.h> 
-void main() 
-{ 
-    char plain[10],cipher[10]; 
-    int key,i,length; 
-    int result; 
-    printf("\n Enter the plain text:"); 
-    scanf("%s", plain); 
-    printf("\n Enter the key value:"); 
+int main() { 
+char text[100], original[100]; 
+int key, i; 
+printf("Enter the plain text: "); 
+fgets(text, sizeof(text), stdin); 
+text[strcspn(text, "\n")] = '\0'; 
+ 
+    printf("Enter the key value: "); 
     scanf("%d", &key); 
-    printf("\n \n \t PLAIN TEXt: %s", plain); 
-    printf("\n \n \t ENCRYPTED TEXT:"); 
-    for(i=0, length = strlen(plain); i<length; i++) 
-    { 
-        cipher[i]=plain[i] + key; 
-        if (isupper(plain[i]) && (cipher[i] > 'Z')) 
-        cipher[i] = cipher[i] - 26; 
-        if (islower(plain[i]) && (cipher[i] > 'z')) 
-        cipher[i] = cipher[i] - 26; 
-        printf("%c", cipher[i]); 
+ 
+    key = ((key % 26) + 26) % 26; 
+ 
+    strcpy(original, text); 
+ 
+    for (i = 0; text[i] != '\0'; i++) { 
+        if (text[i] >= 'A' && text[i] <= 'Z') 
+            text[i] = (text[i] - 'A' + key) % 26 + 'A'; 
+        else if (text[i] >= 'a' && text[i] <= 'z') 
+            text[i] = (text[i] - 'a' + key) % 26 + 'a'; 
     } 
-    printf("\n \n \t AFTER DECRYPTION : "); 
-    for(i=0;i<length;i++) 
-    { 
-        plain[i]=cipher[i]-key; 
-        if(isupper(cipher[i])&&(plain[i]<'A')) 
-        plain[i]=plain[i]+26; 
-        if(islower(cipher[i])&&(plain[i]<'a')) 
-        plain[i]=plain[i]+26; 
-        printf("%c",plain[i]); 
+ 
+    printf("Encrypted text: %s\n", text); 
+ 
+    for (i = 0; text[i] != '\0'; i++) { 
+        if (text[i] >= 'A' && text[i] <= 'Z') 
+            text[i] = (text[i] - 'A' - key + 26) % 26 + 'A'; 
+        else if (text[i] >= 'a' && text[i] <= 'z') 
+            text[i] = (text[i] - 'a' - key + 26) % 26 + 'a'; 
     } 
+ 
+    printf("Decrypted text: %s\n", text); 
+ 
+    return 0; 
 }
 ```
 ## OUTPUT:
-<img width="443" height="378" alt="image" src="https://github.com/user-attachments/assets/3b1e41f5-d08e-4a7e-9ac3-df95516e0980" />
+<img width="364" height="132" alt="{B8DCFEA9-0A0E-42DA-AFE6-51953DF08768}" src="https://github.com/user-attachments/assets/c667ec04-7db6-418e-84c3-3bc3b4b9dbee" />
 
 ## RESULT :
  Thus the implementation of ceasar cipher had been executed successfully.
